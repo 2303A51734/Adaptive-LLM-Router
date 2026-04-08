@@ -1,0 +1,16 @@
+version: "1.0"
+name: "Adaptive AI Model Routing Agent"
+description: "Simulates LLMOps infrastructure where an AI agent learns to route prompts to Small, Medium, or Large AI models to optimize compute cost without sacrificing task accuracy."
+entrypoint: "env.py"
+models: "models.py"
+tasks:
+  - id: "task_easy_routing"
+    description: "Evaluates the agent's ability to save money on simple NLP tasks."
+  - id: "task_medium_routing"
+    description: "Evaluates the agent's ability to balance cost and accuracy for standard tasks."
+  - id: "task_hard_routing"
+    description: "Evaluates if the agent understands when to accept high inference costs for complex tasks."
+tags:
+  - LLMOps
+  - Cost-Optimization
+  - RL
