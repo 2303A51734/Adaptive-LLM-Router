@@ -29,7 +29,7 @@ PROMPT_DATASET = {
 def _strictly_open(value: float) -> float:
     """Maps ANY real number to the STRICTLY OPEN interval (0, 1)."""
     s = 1.0 / (1.0 + math.exp(-value))          # sigmoid → always (0,1)
-    scaled = 0.05 + s * 0.90                    # re-scale to (0.05, 0.95)
+    scaled = 0.0001 + s * (0.9998)              # re-scale to (0.0001, 0.9999)
     result = round(float(scaled), 4)
     assert 0.0 < result < 1.0, f"Score {result} is out of (0, 1)!"
     return result
@@ -49,7 +49,7 @@ class AdaptiveModelRoutingEnv:
         if random.random() < 0.8:
             self.current_true_difficulty = self.target_difficulty
         else:
-            self.current_true_difficulty = random.choice(TASKS)   # Use the TASKS list here
+            self.current_true_difficulty = random.choice(TASKS)
 
         task_data = random.choice(PROMPT_DATASET[self.current_true_difficulty])
         system_load = random.choice(["low", "high"])
@@ -130,8 +130,7 @@ class BaseGrader:
         )
 
     def evaluate(self, env: AdaptiveModelRoutingEnv) -> float:
-        # FIXED: Use the _strictly_open helper that GUARANTEES (0, 1)
-        # This is exactly what the validator is asking for.
+        # Always clamp to strictly between 0 and 1
         return _strictly_open(env.total_reward)
 
 
